@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 posts = [
@@ -43,6 +44,10 @@ posts = [
     },
 ]
 
+posts_ids = {}
+for post in posts:
+    posts_ids[post['id']] = posts.index(post)
+
 
 def index(request):
     template_name = 'blog/index.html'
@@ -50,9 +55,11 @@ def index(request):
     return render(request, template_name, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template_name = 'blog/detail.html'
-    context = {'post': posts[id]}
+    if post_id not in posts_ids:
+        raise Http404(f'Post with id={post_id} does not exist')
+    context = {'post': posts[posts_ids[post_id]]}
     return render(request, template_name, context)
 
 
