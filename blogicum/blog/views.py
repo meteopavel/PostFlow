@@ -45,8 +45,8 @@ posts = [
 ]
 
 posts_ids = {}
-for post in posts:
-    posts_ids[post['id']] = posts.index(post)
+for list_index, post in enumerate(posts):
+    posts_ids[post['id']] = list_index
 
 
 def index(request):
